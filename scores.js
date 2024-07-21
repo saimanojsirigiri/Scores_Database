@@ -49,9 +49,10 @@ app.post("/saveData", async(req,res,next) => {
     } = req.body;
 
     try{
-        const userCheck = await scoresData.find({event_id, userName, level});
-        if(userCheck) return res.status(400).json({message: "User Data already Saved"});
-        else{
+        const userCheck = await scoresData.findOne({event_id, userName, level});
+        if(userCheck){
+            return res.status(400).json({message: "User Data already Saved"});
+        }else{
             const newScoresData = new scoresData({
                 event_id,
                 userName,
