@@ -27,8 +27,8 @@ app.post("/leaderboard", async(req,res,next) => {
     try{
         const leaderBoard = await scoresData.find({event_id, level}).
                             populate('userName', 'scores', 'averageTimeToAnswer').
-                            sort({scores: -1, averageTimeToAnswer: -1}).
-                            limit(60);
+                            sort({scores: -1, averageTimeToAnswer: 1}).
+                            limit(100);
 
         return res.status(200).json({data: leaderBoard});
     }catch(err){
