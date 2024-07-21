@@ -64,7 +64,7 @@ app.post("/saveData", async(req,res,next) => {
 
             const data = await scoresData.create(newScoresData);
             console.log(data);
-            if(data) return res.status(200).json({data:data});
+            if(data) return res.status(200).json({message: "Data Saved"});
             else return res.status(400).json({message: "Data not saved"});
         }
     }catch(err){
