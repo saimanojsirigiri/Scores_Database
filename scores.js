@@ -84,19 +84,20 @@ app.put("/updateData", async(req,res,next) => {
     } = req.body;
 
     try{
-        const scoresDataCheck = await scoresData.find({event_id, userName, level});
+        const scoresDataCheck = await scoresData.find({event_id, userName});
         if(scoresDataCheck){
-            let userScoreUpdate = await scoresData.findOneAndUpdate(
-                {event_id, userName},
-                {$set: {correctAnswersCount,scores,averageTimeToAnswer}},
-                {upsert: true, new: true}
-            );
-            if(userScoreUpdate){
-                return res.status(200).json({message: "User Data Updated"});
+            if(scoresDataCheck.level === level){
+                let userScoreUpdate = await scoresData.findOneAndUpdate(
+                    {event_id, userName},
+                    {$set: {correctAnswersCount,scores,averageTimeToAnswer}},
+                    {upsert: true, new: true}
+                );
+                if(userScoreUpdate){
+                    return res.status(200).json({message: "User Data Updated"});
+                }else{
+                    return res.status(400).json({message: "User not found"});
+                }
             }else{
-                return res.status(400).json({message: "User not found"});
-            }
-        }else{
                 // Insert new score data if it doesn't exist
                 const newScore = new scoresData({
                   event_id,
@@ -110,6 +111,7 @@ app.put("/updateData", async(req,res,next) => {
                 const data = await scoresData.create(newScore);
                 if(data) return res.status(200).json({message: "New Data Saved"})
                 else return res.status(400).json({message: "User not found"});
+            }
         }
     }catch(err){
         return res.status(500).json({message: "Internal Server Error"});
