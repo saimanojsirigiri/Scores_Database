@@ -93,9 +93,23 @@ app.put("/updateData", async(req,res,next) => {
             );
             if(userScoreUpdate){
                 return res.status(200).json({message: "User Data Updated"});
+            }else{
+                return res.status(400).json({message: "User not found"});
             }
         }else{
-            return res.status(400).json({message: "Data not found"});
+                // Insert new score data if it doesn't exist
+                const newScore = new scoresData({
+                  event_id,
+                  userName,
+                  correctAnswersCount,
+                  scores,
+                  averageTimeToAnswer,
+                  level
+                });
+          
+                const data = await scoresData.create(newScore);
+                if(data) return res.status(200).json({message: "New Data Saved"})
+                else return res.status(400).json({message: "User not found"});
         }
     }catch(err){
         return res.status(500).json({message: "Internal Server Error"});
