@@ -88,7 +88,7 @@ app.put("/updateData", async(req,res,next) => {
         if(scoresDataCheck){
             // if(scoresDataCheck.level === level){
                 let userScoreUpdate = await scoresData.findOneAndUpdate(
-                    {event_id, userName},
+                    {event_id, userName, level},
                     {$set: {correctAnswersCount,scores,averageTimeToAnswer}},
                     {upsert: true, new: true}
                 );
