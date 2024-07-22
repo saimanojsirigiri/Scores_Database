@@ -36,6 +36,7 @@ app.post("/leaderboard", async(req,res,next) => {
         if(leaderBoard) return res.status(200).json({data: leaderBoard});
         else return res.status(400).json({message: "Data not found"});
     }catch(err){
+        console.error("Error fetching leaderboard:", err);
         return res.status(500).json({message: "Internal Server Error"});
     }
 });
