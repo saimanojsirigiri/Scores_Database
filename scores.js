@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const createError = require("http-errors");
 require("dotenv").config();
 require("./Helper/start_database");
@@ -9,6 +10,7 @@ const scoresData = require("./Database/Scores.Database");
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(morgan("dev"));
+app.use(cors());
 app.use(express.json());
 app.use(
     express.urlencoded({
