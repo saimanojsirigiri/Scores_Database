@@ -32,7 +32,9 @@ app.post("/leaderboard", async(req,res,next) => {
                             sort({scores: -1, averageTimeToAnswer: 1}).
                             limit(100);
 
-        return res.status(200).json({data: leaderBoard});
+        console.log(leaderBoard);
+        if(leaderBoard) return res.status(200).json({data: leaderBoard});
+        else return res.status(400).json({message: "Data not found"});
     }catch(err){
         return res.status(500).json({message: "Internal Server Error"});
     }
