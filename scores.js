@@ -84,9 +84,9 @@ app.put("/updateData", async(req,res,next) => {
     } = req.body;
 
     try{
-        const scoresDataCheck = await scoresData.findOne({event_id, userName});
+        const scoresDataCheck = await scoresData.findOne({event_id, userName, level});
         if(scoresDataCheck){
-            if(scoresDataCheck.level === level){
+            // if(scoresDataCheck.level === level){
                 let userScoreUpdate = await scoresData.findOneAndUpdate(
                     {event_id, userName},
                     {$set: {correctAnswersCount,scores,averageTimeToAnswer}},
@@ -112,22 +112,23 @@ app.put("/updateData", async(req,res,next) => {
                 if(data) return res.status(200).json({message: "New Data Saved"})
                 else return res.status(400).json({message: "User not found"});
             }
-        }else{
-            // Insert new score data if it doesn't exist
-            const newScore = new scoresData({
-              event_id,
-              userName,
-              correctAnswersCount,
-              scores,
-              averageTimeToAnswer,
-              level
-            });
-      
-            const data = await scoresData.create(newScore);
-            if(data) return res.status(200).json({message: "New Data Saved"})
-            else return res.status(400).json({message: "User not found"});
         }
-    }catch(err){
+        // else{
+        //     // Insert new score data if it doesn't exist
+        //     const newScore = new scoresData({
+        //       event_id,
+        //       userName,
+        //       correctAnswersCount,
+        //       scores,
+        //       averageTimeToAnswer,
+        //       level
+        //     });
+      
+        //     const data = await scoresData.create(newScore);
+        //     if(data) return res.status(200).json({message: "New Data Saved"})
+        //     else return res.status(400).json({message: "User not found"});
+        // }
+    catch(err){
         return res.status(500).json({message: "Internal Server Error"});
     }
 });
