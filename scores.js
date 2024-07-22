@@ -84,7 +84,7 @@ app.put("/updateData", async(req,res,next) => {
     } = req.body;
 
     try{
-        const scoresDataCheck = await scoresData.find({event_id, userName});
+        const scoresDataCheck = await scoresData.findOne({event_id, userName});
         if(scoresDataCheck){
             if(scoresDataCheck.level === level){
                 let userScoreUpdate = await scoresData.findOneAndUpdate(
