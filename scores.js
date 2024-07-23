@@ -32,9 +32,14 @@ app.post("/leaderboard", async(req,res,next) => {
                             sort({scores: -1, averageTimeToAnswer: 1}).
                             limit(1000);
 
-        console.log(leaderBoard);
-        if(leaderBoard) return res.status(200).json({data: leaderBoard});
-        else return res.status(400).json({message: "Data not found"});
+        // console.log(leaderBoard);
+        if (leaderBoard && leaderBoard.length > 0) {
+            console.log("Leaderboard data fetched successfully:", leaderBoard);
+            return res.status(200).json({ data: leaderBoard });
+        } else {
+            console.log("No leaderboard data found for the given event_id and level");
+            return res.status(404).json({ message: "Data not found" });
+        }
     }catch(err){
         console.error("Error fetching leaderboard:", err);
         return res.status(500).json({message: "Internal Server Error"});
