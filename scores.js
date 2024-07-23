@@ -10,7 +10,7 @@ const scoresData = require("./Database/Scores.Database");
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(morgan("dev"));
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 app.use(
     express.urlencoded({
