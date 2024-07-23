@@ -10,7 +10,7 @@ const scoresData = require("./Database/Scores.Database");
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(morgan("dev"));
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(
     express.urlencoded({
@@ -28,9 +28,9 @@ app.post("/leaderboard", async(req,res,next) => {
     const {event_id, level} = req.body;
     try{
         const leaderBoard = await scoresData.find({event_id, level}).
-                            populate('userName', 'scores', 'averageTimeToAnswer').
+                            // populate('userName', 'scores', 'averageTimeToAnswer').
                             sort({scores: -1, averageTimeToAnswer: 1}).
-                            limit(100);
+                            limit(1000);
 
         console.log(leaderBoard);
         if(leaderBoard) return res.status(200).json({data: leaderBoard});
