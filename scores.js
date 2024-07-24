@@ -26,6 +26,7 @@ app.get("/", async(req,res,next) => {
 
 app.post("/leaderboard", async(req,res,next) => {
     const {event_id, level} = req.body;
+    console.log("event_id: " + event_id + ", level: " + level);
     try{
         const leaderBoard = await scoresData.find({event_id, level}).
                             // populate('userName', 'scores', 'averageTimeToAnswer').
